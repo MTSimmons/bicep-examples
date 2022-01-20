@@ -18,4 +18,14 @@ resource storageaccount 'Microsoft.Storage/storageAccounts@2021-02-01' = {
   }
 }
 
-
+resource deploymentScript 'Microsoft.Resources/deploymentScripts@2020-10-01' = {
+  kind: 'AzurePowerShell'
+  location: 'eastus'
+  name: 'configure-testsite'
+  properties: {
+    azPowerShellVersion: '6.4'
+    retentionInterval: 'P1D'
+    primaryScriptUri: './modules/storage/enablesite.ps1'
+    arguments: '-IndexDocument "index.html" -ErrorDocument "404.html" -ResourceGroupName ${resourceGroup().name} -AccountName ${storageaccount.name}'
+  }
+}

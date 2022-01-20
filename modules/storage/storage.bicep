@@ -13,5 +13,9 @@ resource storageaccount 'Microsoft.Storage/storageAccounts@2021-02-01' = {
   sku: {
     name: 'Standard_LRS'
   }
+  properties: {
+    allowBlobPublicAccess: true
+  }
 }
+
 

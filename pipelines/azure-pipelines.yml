@@ -5,13 +5,12 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- task: AzureResourceManagerTemplateDeployment@3
+
+- task: AzurePowerShell@5
   inputs:
-    deploymentScope: 'Subscription'
-    azureResourceManagerConnection: 'VSUltimateFromAzDevOps'
-    subscriptionId: 'df23c400-7a2f-4f25-bae4-0e5e26ea562e'
-    location: 'East US'
-    templateLocation: 'Linked artifact'
-    csmFile: 'main.bicep'
-    csmParametersFile: 'main.param.json'
-    deploymentMode: 'Incremental'
+    azureSubscription: 'VSUltimateFromAzDevOps'
+    ScriptType: 'InlineScript'
+    Inline: |
+      New-AzSubscriptionDeployment -Name sitetest -Location eastus -TemplateFile .\main.bicep `
+      -TemplateParameterFile .\main.param.json
+    azurePowerShellVersion: 'LatestVersion'

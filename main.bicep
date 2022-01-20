@@ -21,6 +21,11 @@ resource monitorRg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   location: Location
 }
 
+resource manageRg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
+  name: '${ProjectName}-manage-rg'
+  location: Location
+}
+
 module net './modules/network/network.bicep' = {
   name: '${ProjectName}-vnet-${StartDate}'
   scope: netRg
@@ -35,5 +40,19 @@ module storage 'modules/storage/storage.bicep' = {
   params: {
     Location: appRg.location
     Name: ProjectName
+  }
+}
+
+module management 'modules/management/managedId.bicep' = {
+  name: '${ProjectName}-management-${StartDate}'
+  scope: manageRg
+  params: {
+    ProjectName: ProjectName
+    ResourceGroupList: [
+      appRg.name
+      monitorRg.name
+      manageRg.name
+      netRg.name
+    ]
   }
 }

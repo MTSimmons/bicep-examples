@@ -4,6 +4,8 @@ param Location string = 'eastus'
 @maxLength(10)
 param Name string = 'sitetest${uniqueString(resourceGroup().name)}'
 
+param Identity string 
+
 var saName = '${toLower(Name)}${uniqueString(resourceGroup().name)}'
 
 resource storageaccount 'Microsoft.Storage/storageAccounts@2021-02-01' = {
@@ -22,6 +24,12 @@ resource deploymentScript 'Microsoft.Resources/deploymentScripts@2020-10-01' = {
   kind: 'AzurePowerShell'
   location: 'eastus'
   name: 'configure-testsite'
+  identity: {
+    type: 'UserAssigned'
+    userAssignedIdentities: {
+      '${Identity}': {}
+    }
+  }
   properties: {
     azPowerShellVersion: '6.4'
     retentionInterval: 'P1D'

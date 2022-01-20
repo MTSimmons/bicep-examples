@@ -40,6 +40,7 @@ module storage 'modules/storage/storage.bicep' = {
   params: {
     Location: appRg.location
     Name: ProjectName
+    Identity: management.outputs.ManagedId
   }
 }
 

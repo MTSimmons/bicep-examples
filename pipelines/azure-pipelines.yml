@@ -8,7 +8,7 @@ steps:
 
 - task: AzurePowerShell@5
   inputs:
-    azureSubscription: 'VSUltimateFromAzDevOps'
+    azureSubscription: 'VSUltimateWithMSDN'
     ScriptType: 'InlineScript'
     Inline: |
       New-AzSubscriptionDeployment -Name sitetest -Location eastus -TemplateFile .\main.bicep `

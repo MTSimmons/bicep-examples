@@ -25,7 +25,18 @@ resource deploymentScript 'Microsoft.Resources/deploymentScripts@2020-10-01' = {
   properties: {
     azPowerShellVersion: '6.4'
     retentionInterval: 'P1D'
-    primaryScriptUri: './modules/storage/enablesite.ps1'
+    scriptContent: '''
+    param (
+      $IndexDocument,
+      $ErrorDocument,
+      $ResourceGroupName,
+      $AccountName
+      )
+      
+    $storageAccount = Get-AzStorageAccount -ResourceGroupName $ResourceGroupName -AccountName $AccountName
+    $ctx = $storageAccount.Context
+    Enable-AzStorageStaticWebsite -Context $ctx -IndexDocument $IndexDocument -ErrorDocument404Path $ErrorDocument
+    '''
     arguments: '-IndexDocument "index.html" -ErrorDocument "404.html" -ResourceGroupName ${resourceGroup().name} -AccountName ${storageaccount.name}'
   }
 }

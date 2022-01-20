@@ -1,4 +1,4 @@
-[CmdletBinding()]
+
 param (
 $IndexDocument,
 $ErrorDocument,
@@ -8,4 +8,4 @@ $AccountName
 
 $storageAccount = Get-AzStorageAccount -ResourceGroupName $ResourceGroupName -AccountName $AccountName
 $ctx = $storageAccount.Context
-Enable-AzStorageStaticWebsite -Context $ctx -IndexDocument <index-document-name> -ErrorDocument404Path <error-document-name>
+Enable-AzStorageStaticWebsite -Context $ctx -IndexDocument $IndexDocument -ErrorDocument404Path $ErrorDocument

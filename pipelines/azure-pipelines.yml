@@ -8,7 +8,7 @@ steps:
 
 - task: AzurePowerShell@5
   inputs:
-    azureSubscription: 'VSUltimateWithMSDN'
+    azureSubscription: '<Your Azure ARM Service Connection Name>'
     ScriptType: 'InlineScript'
     Inline: |
       New-AzSubscriptionDeployment -Name sitetest -Location eastus -TemplateFile .\main.bicep `
